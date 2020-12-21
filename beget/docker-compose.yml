@@ -11,12 +11,10 @@ services:
           - "nuget:/var/baget/baget.db"
         env_file:
             - beget.env
-            - secrets.env # "ApiKey" is located here
+            - secrets.env # "ApiKey" variable is located here
     nginx: 
         image: nginx:latest
         restart: always
-        env_file:
-            - reverse.env
         container_name: tonybark_nuget_nginx
         volumes:
             - ./nginx.conf:/etc/nginx/nginx.conf
