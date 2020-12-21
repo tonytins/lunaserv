@@ -1,0 +1,27 @@
+version: "3"
+services:
+    web:
+        image: loicsharma/baget
+        container_name: tonybark_nuget
+        restart: always
+        expose:
+            - "5555:5555"
+        volumes:
+          - "nuget:/var/baget/packages"
+          - "nuget:/var/baget/baget.db"
+        env_file:
+            - beget.env
+            - secrets.env # "ApiKey" is located here
+    nginx: 
+        image: nginx:latest
+        restart: always
+        env_file:
+            - reverse.env
+        container_name: tonybark_nuget_nginx
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf
+            - /etc/letsencrypt/:/etc/letsencrypt/
+        links:
+          - "web"
+volumes:
+    nuget:
